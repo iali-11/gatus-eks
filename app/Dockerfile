@@ -1,27 +1,22 @@
-# Stage 1: Build Stage
-FROM golang:alpine3.24 AS builder
-
+# Build the go application into a binary
+FROM golang:alpine AS builder
+RUN apk --update add ca-certificates
 WORKDIR /app
+COPY . ./
+RUN go mod tidy -diff
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gatus .
 
-COPY go.mod go.sum ./
+# Run Tests inside docker image if you don't have a configured go environment
+#RUN apk update && apk add --virtual build-dependencies build-base gcc
+#RUN go test ./... -mod vendor
 
-RUN go mod download
-
-COPY . .
-
-RUN CGO_ENABLED=0 GOOS=linux go build -a -o gatus .
-
-# Stage 2: Runtime Stage
-
-FROM scratch AS runtime
-
-WORKDIR /app
-
-COPY --from=builder /app/gatus ./gatus
-COPY --from=builder /app/config.yaml ./config.yaml
-
-ENV GATUS_CONFIG_PATH=./config.yaml
-
-EXPOSE 8080
-
-ENTRYPOINT [ "./gatus" ]
+# Run the binary on an empty container
+FROM scratch
+COPY --from=builder /app/gatus .
+COPY --from=builder /app/config.yaml ./config/config.yaml
+COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+ENV GATUS_CONFIG_PATH=""
+ENV GATUS_LOG_LEVEL="INFO"
+ENV PORT="8080"
+EXPOSE ${PORT}
+ENTRYPOINT ["/gatus"]
