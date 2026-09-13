@@ -1,7 +1,4 @@
-variable "project-name" {
-  default = "gatus-eks"
-  type    = string
-}
+# VPC values
 
 variable "vpc_cidr_block" {
   default = "10.0.0.0/20"
@@ -26,4 +23,26 @@ variable "availability_zones" {
 variable "default_cidr_block" {
   default = "0.0.0.0/0"
   type    = string
+}
+
+# iam values
+
+variable "cluster_policy_arn" {
+  type    = string
+  default = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+}
+
+variable "eks_worker_node_policy_arn" {
+  type    = string
+  default = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+}
+
+variable "ecr_registry_policy_arn" {
+  type    = string
+  default = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPullOnly"
+}
+
+variable "cni_policy_arn" {
+  type    = string
+  default = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
 }
