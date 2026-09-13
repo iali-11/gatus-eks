@@ -1,5 +1,6 @@
 variable "project-name" {
   type = string
+  description = "Name of the project"
 }
 
 variable "vpc_cidr_block" {
