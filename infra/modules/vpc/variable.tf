@@ -1,6 +1,5 @@
 variable "project-name" {
   type = string
-  description = "Name of the project"
 }
 
 variable "vpc_cidr_block" {
@@ -23,5 +22,9 @@ variable "availability_zones" {
 }
 
 variable "default_cidr_block" {
+  type = string
+}
+
+variable "cluster-name" {
   type = string
 }
