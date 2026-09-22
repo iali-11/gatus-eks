@@ -1,3 +1,5 @@
+# Stage 1: Build Stage
+
 FROM golang:alpine3.24 AS builder
 
 WORKDIR /app
