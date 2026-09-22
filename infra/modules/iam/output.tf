@@ -18,14 +18,18 @@ output "eks_cluster_role_arn" {
   value = aws_iam_role.eks_cluster_role.arn
 }
 
-output "eks_cluster_policy_attachment_id" {
-  value = aws_iam_role_policy_attachment.eks_cluster_policy_attachment.id
-}
-
 output "node_role_arn" {
   value = aws_iam_role.node_role.arn
 }
 
-output "node_policy_attachment_ids" {
-  value = [ for a in aws_iam_role_policy_attachment.eks_node_policy_attachment : a.id ]
+output "cert_manager_role_arn" {
+  value = aws_iam_role.cert_manager.arn
+}
+
+output "external_dns_role_arn" {
+  value = aws_iam_role.external_dns.arn
+}
+
+output "ebs_csi_role_arn" {
+  value = aws_iam_role.ebs_csi.arn
 }
