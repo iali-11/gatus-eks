@@ -20,6 +20,7 @@ module "eks" {
   vpc-cni               = var.vpc-cni
   coredns               = var.coredns
   ebs-csi               = var.ebs-csi
+  efs_csi               = var.efs_csi
   pod-identity-agent    = var.pod-identity-agent
   auth_mode             = var.auth_mode
   kube_version          = var.kube_version
@@ -32,6 +33,7 @@ module "eks" {
   cert_manager_role_arn = module.iam.cert_manager_role_arn
   external_dns_role_arn = module.iam.external_dns_role_arn
   ebs_csi_role_arn      = module.iam.ebs_csi_role_arn
+  efs_csi_role_arn      = module.iam.efs_csi_role_arn
   capacity_type         = var.capacity_type
   disk_size             = var.disk_size
   disk_type             = var.disk_type
@@ -55,6 +57,8 @@ module "iam" {
   external_dns_policy_name   = var.external_dns_policy_name
   ebs_csi_policy_arn         = var.ebs_csi_policy_arn
   ebs_csi_role_name          = var.ebs_csi_role_name
+  efs_csi_policy_arn         = var.efs_csi_policy_arn
+  efs_csi_role_name          = var.efs_csi_role_name
 }
 
 module "sg" {
@@ -65,16 +69,16 @@ module "sg" {
   project-name       = var.project-name
 }
 
-module "rds" {
-  source              = "./modules/rds"
+module "efs" {
+  source              = "./modules/efs"
   project-name        = var.project-name
-  cluster-name        = var.cluster-name
   private_subnets_ids = module.vpc.private_subnets_ids
-  rds_sg_id           = module.sg.rds_sg_id
-  db_name             = var.db_name
-  db_engine           = var.db_engine
-  allocated_storage   = var.allocated_storage
-  instance_class      = var.instance_class
-  db_password         = var.db_password
-  db_username         = var.db_username
+  efs_sg_id           = module.sg.efs_sg_id
+}
+
+module "helm" {
+  source                = "./modules/helm"
+  project-name          = var.project-name
+  cert_manager_role_arn = module.iam.cert_manager_role_arn
+  external_dns_role_arn = module.iam.external_dns_role_arn
 }
