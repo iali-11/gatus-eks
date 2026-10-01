@@ -49,11 +49,3 @@ variable "ebs_csi_policy_arn" {
 variable "ebs_csi_role_name" {
   type = string
 }
-
-variable "efs_csi_policy_arn" {
-  type = string
-}
-
-variable "efs_csi_role_name" {
-  type = string
-}
