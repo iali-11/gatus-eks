@@ -33,3 +33,7 @@ output "external_dns_role_arn" {
 output "ebs_csi_role_arn" {
   value = aws_iam_role.ebs_csi.arn
 }
+
+output "efs_csi_role_arn" {
+  value = aws_iam_role.efs_csi.arn
+}
