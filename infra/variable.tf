@@ -3,6 +3,11 @@ variable "project-name" {
   default = "gatus-eks"
 }
 
+variable "aws_region" {
+  type    = string
+  default = "eu-west-2"
+}
+
 # VPC values
 
 variable "vpc_cidr_block" {
@@ -54,7 +59,7 @@ variable "cni_policy_arn" {
 
 variable "hostedzone_id" {
   type    = string
-  default = "Z02139843GGR93Z9N2VGJ"
+  default = "Z02036381C6U8LRTFAUJT"
 }
 
 variable "cert_manager_role_name" {
@@ -85,6 +90,16 @@ variable "ebs_csi_policy_arn" {
 variable "ebs_csi_role_name" {
   type    = string
   default = "ebs_csi_role"
+}
+
+variable "efs_csi_policy_arn" {
+  type    = string
+  default = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+}
+
+variable "efs_csi_role_name" {
+  type    = string
+  default = "efs_csi_role"
 }
 
 # EKS Values
@@ -144,6 +159,11 @@ variable "ebs-csi" {
   default = "aws-ebs-csi-driver"
 }
 
+variable "efs_csi" {
+  type    = string
+  default = "aws-efs-csi-driver"
+}
+
 variable "pod-identity-agent" {
   type    = string
   default = "eks-pod-identity-agent"
@@ -172,38 +192,4 @@ variable "disk_type" {
 variable "instance_types" {
   type    = string
   default = "t3.medium"
-}
-
-# RDS Values
-
-variable "db_name" {
-  type    = string
-  default = "gatus"
-}
-
-variable "db_engine" {
-  type    = string
-  default = "postgres"
-}
-
-variable "instance_class" {
-  type    = string
-  default = "db.t3.micro"
-}
-
-variable "allocated_storage" {
-  type    = number
-  default = 20
-}
-
-variable "db_username" {
-  description = "RDS database username"
-  type        = string
-  sensitive   = true
-}
-
-variable "db_password" {
-  description = "RDS database password"
-  type        = string
-  sensitive   = true
 }
