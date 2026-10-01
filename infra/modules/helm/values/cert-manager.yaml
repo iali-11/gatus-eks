@@ -1,0 +1,10 @@
+crds:
+  enabled: true
+
+extraArgs:
+- --dns01-recursive-nameservers="8.8.8.8:53"
+- --dns01-recursive-nameservers-only
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::050288151438:role/cert-manager-role"
