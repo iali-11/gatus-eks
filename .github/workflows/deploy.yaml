@@ -30,6 +30,16 @@ jobs:
         - name: Checkout Code
           uses: actions/checkout@v4
 
+        - name: Get global node ID
+          id: get-repo-id
+          uses: nvdaes/get-repository-id@v1
+          with:
+            repository: owner/repo
+
+        - name: Print Output
+          id: output
+          run: echo "${{ steps.get-repo-id.outputs.repo-id }}"
+
         - name: Debug GitHub OIDC
           run: |
             echo "Repository: $GITHUB_REPOSITORY"
