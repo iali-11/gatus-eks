@@ -1,0 +1,22 @@
+provider: aws
+
+env:
+- name: AWS_DEFAULT_REGION
+  value: eu-west-2
+
+domainFilters:
+  - gatus.ibrahimali.co.uk
+
+extraArgs:
+  zone-id-filter:
+    - Z02036381C6U8LRTFAUJT
+
+policy: sync
+
+registry: txt
+
+txtOwnerId: gatus-eks
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: "arn:aws:iam::050288151438:role/external-dns-role"
