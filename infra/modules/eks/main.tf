@@ -73,7 +73,8 @@ resource "aws_eks_addon" "eks_addon_after_compute" {
   for_each = toset([
     var.pod-identity-agent,
     var.coredns,
-    var.ebs-csi
+    var.ebs-csi,
+    var.efs_csi
   ])
   cluster_name = aws_eks_cluster.eks_cluster.name
   addon_name   = each.value
@@ -99,4 +100,11 @@ resource "aws_eks_pod_identity_association" "ebs_csi" {
   namespace       = "kube-system"
   service_account = "ebs-csi-controller-sa"
   role_arn        = var.ebs_csi_role_arn
+}
+
+resource "aws_eks_pod_identity_association" "efs_csi" {
+  cluster_name    = aws_eks_cluster.eks_cluster.name
+  namespace       = "kube-system"
+  service_account = "efs-csi-controller-sa"
+  role_arn        = var.efs_csi_role_arn
 }
