@@ -61,30 +61,21 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_node" {
   ip_protocol       = "-1" # semantically equivalent to all ports
 }
 
-# RDS Security Group
-
-resource "aws_security_group" "rds_sg" {
-  name   = "${var.project-name}-rds-sg"
+# EFS Security Group
+resource "aws_security_group" "efs_sg" {
+  name   = "${var.project-name}-efs-sg"
   vpc_id = var.vpc_id
 
   tags = {
-    Name         = "${var.project-name}-rds-sg"
+    Name         = "${var.project-name}-efs-sg"
     project-name = var.project-name
   }
 }
 
-# Allow EKS to access PostgreSQL
-resource "aws_vpc_security_group_ingress_rule" "rds_from_nodes" {
-  security_group_id            = aws_security_group.rds_sg.id
+resource "aws_vpc_security_group_ingress_rule" "efs_to_eks" {
+  security_group_id            = aws_security_group.efs_sg.id
   referenced_security_group_id = aws_security_group.eks_node_sg.id
-  from_port                    = 5432
+  from_port                    = 2049
   ip_protocol                  = "tcp"
-  to_port                      = 5432
-}
-
-# Allow all outbound traffic from RDS
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_rds" {
-  security_group_id = aws_security_group.rds_sg.id
-  cidr_ipv4         = var.default_cidr_block
-  ip_protocol       = "-1" # semantically equivalent to all ports
+  to_port                      = 2049
 }
