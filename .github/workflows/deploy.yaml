@@ -39,7 +39,7 @@ jobs:
         - name: Configure AWS Credentials
           uses: aws-actions/configure-aws-credentials@v6
           with:
-            role-to-assume: ${{ secrets.OIDC_ACTIONS_ROLE }}
+            role-to-assume: arn:aws:iam::050288151438:role/Actions_OIDC_Role
             aws-region: ${{ env.AWS_REGION }}
 
         - name: Setup Terraform
