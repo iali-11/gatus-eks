@@ -83,6 +83,37 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_policy_attachment" {
   policy_arn = var.ebs_csi_policy_arn
 }
 
+resource "aws_iam_role" "efs_csi" {
+  name = var.efs_csi_role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "sts:AssumeRole",
+          "sts:TagSession"
+        ]
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "pods.eks.amazonaws.com"
+        }
+      },
+    ]
+  })
+
+  tags = {
+    project-name = var.project-name
+    cluster-name = var.cluster-name
+  }
+}
+
+resource "aws_iam_role_policy_attachment" "efs_csi_policy_attachment" {
+  role       = aws_iam_role.efs_csi.name
+  policy_arn = var.efs_csi_policy_arn
+}
+
 resource "aws_iam_role" "cert_manager" {
   name = var.cert_manager_role_name
 
@@ -173,9 +204,7 @@ resource "aws_iam_policy" "external_dns_01" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "route53:ChangeResourceRecordSets",
-          "route53:ListResourceRecordSets",
-          "route53:ListTagsForResources"
+          "route53:ChangeResourceRecordSets"
         ],
         "Resource" : [
           "arn:aws:route53:::hostedzone/${var.hostedzone_id}"
@@ -184,7 +213,8 @@ resource "aws_iam_policy" "external_dns_01" {
       {
         "Effect" : "Allow",
         "Action" : [
-          "route53:ListHostedZones"
+          "route53:ListHostedZones",
+          "route53:ListResourceRecordSets"
         ],
         "Resource" : [
           "*"
