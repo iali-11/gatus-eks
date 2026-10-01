@@ -3,7 +3,7 @@ name: Infrastructure Deployment Workflow
 on:
     push:
         paths:
-          - "./infra"
+          - "infra/**"
     workflow_dispatch:
 
 permissions:
