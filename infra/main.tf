@@ -40,6 +40,8 @@ module "eks" {
   instance_types        = var.instance_types
   eks_cluster_sg_id     = module.sg.eks_cluster_sg_id
   node_sg_id            = module.sg.node_sg_id
+  oidc_role_principle_arn = var.oidc_role_principle_arn
+  eks_admin_policy_arn = var.eks_admin_policy_arn
 }
 
 module "iam" {
