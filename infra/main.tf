@@ -83,5 +83,5 @@ module "helm" {
   project-name                  = var.project-name
   cert_manager_role_arn         = module.iam.cert_manager_role_arn
   external_dns_role_arn         = module.iam.external_dns_role_arn
-  eks_access_policy_association = module.eks.eks_access_policy_association
+  eks_access_policy_association_arn = module.eks.eks_access_policy_association_arn
 }
