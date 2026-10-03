@@ -79,8 +79,9 @@ module "efs" {
 }
 
 module "helm" {
-  source                = "./modules/helm"
-  project-name          = var.project-name
-  cert_manager_role_arn = module.iam.cert_manager_role_arn
-  external_dns_role_arn = module.iam.external_dns_role_arn
+  source                        = "./modules/helm"
+  project-name                  = var.project-name
+  cert_manager_role_arn         = module.iam.cert_manager_role_arn
+  external_dns_role_arn         = module.iam.external_dns_role_arn
+  eks_access_policy_association = module.eks.aws_eks_access_policy_association
 }
