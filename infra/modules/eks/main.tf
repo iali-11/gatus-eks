@@ -108,3 +108,18 @@ resource "aws_eks_pod_identity_association" "efs_csi" {
   service_account = "efs-csi-controller-sa"
   role_arn        = var.efs_csi_role_arn
 }
+
+resource "aws_eks_access_entry" "oidc_role" {
+  cluster_name  = aws_eks_cluster.eks_cluster.name
+  principal_arn = "arn:aws:iam::050288151438:role/Actions_OIDC_Role"
+}
+
+resource "aws_eks_access_policy_association" "oidc_role_association" {
+  cluster_name  = aws_eks_cluster.eks_cluster.name
+  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+  principal_arn = aws_eks_access_entry.oidc_role.principal_arn
+
+  access_scope {
+    type = "cluster"
+  }
+}
