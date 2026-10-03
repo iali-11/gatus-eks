@@ -3,7 +3,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 
   access_config {
     authentication_mode                         = var.auth_mode
-    bootstrap_cluster_creator_admin_permissions = true
+    bootstrap_cluster_creator_admin_permissions = false
   }
 
   role_arn = var.eks_cluster_role_arn
@@ -111,12 +111,12 @@ resource "aws_eks_pod_identity_association" "efs_csi" {
 
 resource "aws_eks_access_entry" "oidc_role" {
   cluster_name  = aws_eks_cluster.eks_cluster.name
-  principal_arn = "arn:aws:iam::050288151438:role/Actions_OIDC_Role"
+  principal_arn = var.oidc_role_principle_arn
 }
 
 resource "aws_eks_access_policy_association" "oidc_role_association" {
   cluster_name  = aws_eks_cluster.eks_cluster.name
-  policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+  policy_arn    = var.eks_admin_policy_arn
   principal_arn = aws_eks_access_entry.oidc_role.principal_arn
 
   access_scope {
