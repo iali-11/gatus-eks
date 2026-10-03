@@ -42,6 +42,7 @@ module "eks" {
   node_sg_id              = module.sg.node_sg_id
   oidc_role_principle_arn = var.oidc_role_principle_arn
   eks_admin_policy_arn    = var.eks_admin_policy_arn
+  Ibrahim_principal_arn   = var.Ibrahim_principal_arn
 }
 
 module "iam" {
