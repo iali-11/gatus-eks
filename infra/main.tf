@@ -10,38 +10,38 @@ module "vpc" {
 }
 
 module "eks" {
-  source                = "./modules/eks"
-  project-name          = var.project-name
-  private_subnets_ids   = module.vpc.private_subnets_ids
-  cluster-name          = var.cluster-name
-  eks_cluster_role_arn  = module.iam.eks_cluster_role_arn
-  node_role_arn         = module.iam.node_role_arn
-  kube-proxy            = var.kube-proxy
-  vpc-cni               = var.vpc-cni
-  coredns               = var.coredns
-  ebs-csi               = var.ebs-csi
-  efs_csi               = var.efs_csi
-  pod-identity-agent    = var.pod-identity-agent
-  auth_mode             = var.auth_mode
-  kube_version          = var.kube_version
-  desired_size          = var.desired_size
-  max_size              = var.max_size
-  min_size              = var.min_size
-  max_unavailable       = var.max_unavailable
-  public_access_cidrs   = var.public_access_cidrs
-  depends_on            = [module.iam]
-  cert_manager_role_arn = module.iam.cert_manager_role_arn
-  external_dns_role_arn = module.iam.external_dns_role_arn
-  ebs_csi_role_arn      = module.iam.ebs_csi_role_arn
-  efs_csi_role_arn      = module.iam.efs_csi_role_arn
-  capacity_type         = var.capacity_type
-  disk_size             = var.disk_size
-  disk_type             = var.disk_type
-  instance_types        = var.instance_types
-  eks_cluster_sg_id     = module.sg.eks_cluster_sg_id
-  node_sg_id            = module.sg.node_sg_id
+  source                  = "./modules/eks"
+  project-name            = var.project-name
+  private_subnets_ids     = module.vpc.private_subnets_ids
+  cluster-name            = var.cluster-name
+  eks_cluster_role_arn    = module.iam.eks_cluster_role_arn
+  node_role_arn           = module.iam.node_role_arn
+  kube-proxy              = var.kube-proxy
+  vpc-cni                 = var.vpc-cni
+  coredns                 = var.coredns
+  ebs-csi                 = var.ebs-csi
+  efs_csi                 = var.efs_csi
+  pod-identity-agent      = var.pod-identity-agent
+  auth_mode               = var.auth_mode
+  kube_version            = var.kube_version
+  desired_size            = var.desired_size
+  max_size                = var.max_size
+  min_size                = var.min_size
+  max_unavailable         = var.max_unavailable
+  public_access_cidrs     = var.public_access_cidrs
+  depends_on              = [module.iam]
+  cert_manager_role_arn   = module.iam.cert_manager_role_arn
+  external_dns_role_arn   = module.iam.external_dns_role_arn
+  ebs_csi_role_arn        = module.iam.ebs_csi_role_arn
+  efs_csi_role_arn        = module.iam.efs_csi_role_arn
+  capacity_type           = var.capacity_type
+  disk_size               = var.disk_size
+  disk_type               = var.disk_type
+  instance_types          = var.instance_types
+  eks_cluster_sg_id       = module.sg.eks_cluster_sg_id
+  node_sg_id              = module.sg.node_sg_id
   oidc_role_principle_arn = var.oidc_role_principle_arn
-  eks_admin_policy_arn = var.eks_admin_policy_arn
+  eks_admin_policy_arn    = var.eks_admin_policy_arn
 }
 
 module "iam" {
