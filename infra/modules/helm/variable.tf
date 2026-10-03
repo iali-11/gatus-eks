@@ -10,6 +10,6 @@ variable "external_dns_role_arn" {
   type = string
 }
 
-variable "eks_access_policy_association" {
+variable "eks_access_policy_association_arn" {
   type = string
 }
