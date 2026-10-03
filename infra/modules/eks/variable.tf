@@ -109,3 +109,11 @@ variable "node_sg_id" {
 variable "efs_csi_role_arn" {
   type = string
 }
+
+variable "oidc_role_principle_arn" {
+  type = string
+}
+
+variable "eks_admin_policy_arn" {
+  type = string
+}
