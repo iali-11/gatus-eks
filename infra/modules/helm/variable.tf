@@ -9,3 +9,7 @@ variable "cert_manager_role_arn" {
 variable "external_dns_role_arn" {
   type = string
 }
+
+variable "eks_access_policy_association" {
+  type = string
+}
