@@ -7,7 +7,7 @@ resource "helm_release" "nginx" {
   namespace        = "nginx-ingress"
 
   depends_on = [
-    var.eks_access_policy_association
+    var.eks_access_policy_association_arn
   ]
 }
 
@@ -21,7 +21,7 @@ resource "helm_release" "cert_manager" {
 
   depends_on = [
     var.cert_manager_role_arn,
-    var.eks_access_policy_association
+    var.eks_access_policy_association_arn
   ]
 
   values = [
@@ -39,7 +39,7 @@ resource "helm_release" "external_dns" {
 
   depends_on = [
     var.external_dns_role_arn,
-    var.eks_access_policy_association
+    var.eks_access_policy_association_arn
   ]
 
   values = [
