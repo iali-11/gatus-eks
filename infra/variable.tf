@@ -201,5 +201,5 @@ variable "oidc_role_principle_arn" {
 
 variable "eks_admin_policy_arn" {
   type    = string
-  default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+  default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
