@@ -193,3 +193,13 @@ variable "instance_types" {
   type    = string
   default = "t3.medium"
 }
+
+variable "oidc_role_principle_arn" {
+  type = string
+  default = "arn:aws:iam::050288151438:role/Actions_OIDC_Role"
+}
+
+variable "eks_admin_policy_arn" {
+  type = string
+  default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSAdminPolicy"
+}
