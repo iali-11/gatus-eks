@@ -117,3 +117,7 @@ variable "oidc_role_principle_arn" {
 variable "eks_admin_policy_arn" {
   type = string
 }
+
+variable "Ibrahim_principal_arn" {
+  type = string
+}

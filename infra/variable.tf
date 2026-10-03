@@ -203,3 +203,8 @@ variable "eks_admin_policy_arn" {
   type    = string
   default = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
 }
+
+variable "Ibrahim_principal_arn" {
+  type = string
+  default = "arn:aws:iam::050288151438:user/Ibrahim"
+}
