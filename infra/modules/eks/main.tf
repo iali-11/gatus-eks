@@ -109,6 +109,21 @@ resource "aws_eks_pod_identity_association" "efs_csi" {
   role_arn        = var.efs_csi_role_arn
 }
 
+resource "aws_eks_access_entry" "Ibrahim" {
+  cluster_name  = aws_eks_cluster.eks_cluster.name
+  principal_arn = var.Ibrahim_principal_arn
+}
+
+resource "aws_eks_access_policy_association" "Ibrahim_association" {
+  cluster_name  = aws_eks_cluster.eks_cluster.name
+  policy_arn    = var.eks_admin_policy_arn
+  principal_arn = aws_eks_access_entry.Ibrahim.principal_arn
+
+  access_scope {
+    type = "cluster"
+  }
+}
+
 resource "aws_eks_access_entry" "oidc_role" {
   cluster_name  = aws_eks_cluster.eks_cluster.name
   principal_arn = var.oidc_role_principle_arn
