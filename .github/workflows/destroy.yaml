@@ -1,0 +1,46 @@
+name: Destroy Infrastructure Workflow
+
+on:
+    workflow_dispatch:
+
+permissions:
+    id-token: write
+    contents: read
+
+concurrency:
+    group: terraform-destroy
+    cancel-in-progress: true
+
+env:
+    AWS_REGION: eu-west-2
+    TF_VERSION: v1.15.1
+
+jobs:
+    destroy:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                shell: bash
+                working-directory: ./infra
+
+        steps:
+        - name: Checkout Code
+          uses: actions/checkout@v4
+
+        - name: Configure AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v6
+          with:
+            role-to-assume: ${{ secrets.OIDC_ACTIONS_ROLE }}
+            aws-region: ${{ env.AWS_REGION }}
+
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v4
+          with:
+            terraform_version: ${{ env.TF_VERSION }}
+
+        - name: Terraform Init
+          run: terraform init
+
+        - name: Terraform Destroy
+          run: terraform destroy -auto-approve
+
