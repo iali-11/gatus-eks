@@ -14,6 +14,6 @@ output "eks_cluster_certificate_authority_data" {
   value = aws_eks_cluster.eks_cluster.certificate_authority[0].data
 }
 
-output "eks_access_policy_association" {
-  value = aws_eks_access_policy_association.oidc_role_association
+output "eks_access_policy_association_arn" {
+  value = aws_eks_access_policy_association.oidc_role_association.policy_arn
 }
