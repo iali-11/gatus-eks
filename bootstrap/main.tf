@@ -12,3 +12,9 @@ module "s3" {
   sse_algorithm            = var.sse_algorithm
   versioning_configuration = var.versioning_configuration
 }
+
+module "oidc" {
+  source = "./modules/oidc"
+  s3-bucket-arn = module.s3.s3-bucket-arn
+  ecr-repo-url = module.ecr.ecr-repo-url
+}
