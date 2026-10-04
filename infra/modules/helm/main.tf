@@ -46,3 +46,21 @@ resource "helm_release" "external_dns" {
     file("${path.module}/values/external-dns.yaml")
   ]
 }
+
+resource "helm_release" "argo_cd" {
+  name       = "argocd"
+  repository = "https://argoproj.github.io/argo-helm"
+  chart      = "argo-cd"
+  timeout    = 600
+
+  create_namespace = true
+  namespace        = "argo-cd"
+
+  depends_on = [
+    var.eks_access_policy_association_arn
+  ]
+
+  values = [
+    file("${path.module}/values/argocd.yaml")
+  ]
+}
