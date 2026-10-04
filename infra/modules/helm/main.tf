@@ -5,10 +5,6 @@ resource "helm_release" "nginx" {
 
   create_namespace = true
   namespace        = "nginx-ingress"
-
-  depends_on = [
-    var.eks_access_policy_association_arn
-  ]
 }
 
 resource "helm_release" "cert_manager" {
@@ -19,13 +15,13 @@ resource "helm_release" "cert_manager" {
   create_namespace = true
   namespace        = "cert-manager"
 
+  values = [
+    file("${path.module}/values/cert-manager.yaml")
+  ]
+
   depends_on = [
     var.cert_manager_role_arn,
     var.eks_access_policy_association_arn
-  ]
-
-  values = [
-    file("${path.module}/values/cert-manager.yaml")
   ]
 }
 
@@ -37,13 +33,13 @@ resource "helm_release" "external_dns" {
   create_namespace = true
   namespace        = "external-dns"
 
+  values = [
+    file("${path.module}/values/external-dns.yaml")
+  ]
+
   depends_on = [
     var.external_dns_role_arn,
     var.eks_access_policy_association_arn
-  ]
-
-  values = [
-    file("${path.module}/values/external-dns.yaml")
   ]
 }
 
@@ -55,10 +51,6 @@ resource "helm_release" "argo_cd" {
 
   create_namespace = true
   namespace        = "argo-cd"
-
-  depends_on = [
-    var.eks_access_policy_association_arn
-  ]
 
   values = [
     file("${path.module}/values/argocd.yaml")
