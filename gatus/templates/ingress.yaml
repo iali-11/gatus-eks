@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gatus-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: issuer
+    external-dns.kubernetes.io/hostname: gatus.ibrahimali.co.uk
+
+spec:
+  ingressClassName: nginx
+
+  tls:
+    - hosts:
+        - gatus.ibrahimali.co.uk
+      secretName: gatus-tls
+
+  rules:
+    - host: gatus.ibrahimali.co.uk
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gatus-svc
+                port:
+                  number: 80
