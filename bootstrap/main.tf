@@ -15,6 +15,4 @@ module "s3" {
 
 module "oidc" {
   source = "./modules/oidc"
-  s3-bucket-arn = module.s3.s3-bucket-arn
-  ecr-repo-url = module.ecr.ecr-repo-url
 }
