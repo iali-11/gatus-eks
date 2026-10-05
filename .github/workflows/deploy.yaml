@@ -71,7 +71,7 @@ jobs:
             --name ${{ env.CLUSTER_NAME }}
           
         - name: Deploy Cluster Issuer In Cluster
-          run: kubectl apply -f cert-manager/issuer.yaml
+          run: kubectl apply -f issuer.yaml
           working-directory: ./cert-manager
 
         - name: Wait for Cluster Issuer
