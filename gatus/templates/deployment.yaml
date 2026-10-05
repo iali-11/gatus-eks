@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatus-deployment
+  labels:
+    app: gatus
+
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: gatus
+  template:
+    metadata:
+      labels:
+        app: gatus
+
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - gatus
+              topologyKey: kubernetes.io/hostname
+
+      containers:
+      - name: gatus
+        image: 050288151438.dkr.ecr.eu-west-2.amazonaws.com/gatus:4a923a9e
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+
+        env:
+          - name: GATUS_CONFIG_PATH
+            value: /config/config.yaml
+
+        volumeMounts:
+          - name: gatus-config
+            mountPath: /config
+        
+      volumes:
+        - name: gatus-config
+          configMap:
+            name: gatus-config
