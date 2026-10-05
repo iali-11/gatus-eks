@@ -4,6 +4,7 @@ on:
     push:
         paths:
           - "infra/**"
+          - "cert-manager/**"
     workflow_dispatch:
 
 permissions:
@@ -13,6 +14,7 @@ permissions:
 env:
     AWS_REGION: eu-west-2
     TF_VERSION: v1.15.1
+    CLUSTER_NAME: gatus-eks-cluster
 
 concurrency:
     group: terraform-deploy
@@ -45,7 +47,7 @@ jobs:
           run: terraform init
 
         - name: Terraform Format Check
-          run: terraform fmt -recursive 
+          run: terraform fmt -check -recursive 
 
         - name: Terraform Validate
           run: terraform validate
@@ -61,3 +63,20 @@ jobs:
 
         - name: Terraform Apply
           run: terraform apply -auto-approve tfplan
+
+        - name: Authenticate Into The Cluster
+          run: |
+            aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ env.CLUSTER_NAME }}
+          
+        - name: Deploy Cluster Issuer In Cluster
+          run: kubectl apply -f cert-manager/issuer.yaml
+          working-directory: ./cert-manager
+
+        - name: Wait for Cluster Issuer
+          run: |
+            kubectl wait \
+            --for=condition=Ready \
+            clusterissuer/issuer \
+            --timeout=300s
