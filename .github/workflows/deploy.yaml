@@ -74,6 +74,13 @@ jobs:
           run: kubectl apply -f issuer.yaml
           working-directory: ./cert-manager
 
+        - name: Wait for Cluster Issuer
+          run: |
+            kubectl wait \
+            --for=condition=Ready \
+            clusterissuer/issuer \
+            --timeout=300s
+
         - name: Wait For Argo CD TLS Certificate
           run: |
             kubectl wait \
