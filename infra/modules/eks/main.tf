@@ -2,8 +2,7 @@ resource "aws_eks_cluster" "eks_cluster" {
   name = var.cluster-name
 
   access_config {
-    authentication_mode                         = var.auth_mode
-    bootstrap_cluster_creator_admin_permissions = false
+    authentication_mode = var.auth_mode
   }
 
   role_arn = var.eks_cluster_role_arn
