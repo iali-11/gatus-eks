@@ -60,7 +60,7 @@ resource "helm_release" "argo_cd" {
     file("${path.module}/values/argocd.yaml")
   ]
 
-  depends_on = [ 
+  depends_on = [
     var.eks_access_policy_association_arn
   ]
 }
