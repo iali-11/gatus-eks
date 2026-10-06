@@ -14,6 +14,7 @@ concurrency:
 env:
     AWS_REGION: eu-west-2
     TF_VERSION: v1.15.1
+    CLUSTER_NAME: gatus-eks-cluster
 
 jobs:
     destroy:
@@ -40,6 +41,39 @@ jobs:
 
         - name: Terraform Init
           run: terraform init
+
+        - name: Authenticate Into The Cluster
+          run: |
+            aws eks update-kubeconfig \
+            --region ${{ env.AWS_REGION }} \
+            --name ${{ env.CLUSTER_NAME }}
+
+        - name: Delete gatus application on Argo CD
+          working-directory: ./argo-cd
+          run: |
+            kubectl delete -f gatus-argo.yaml
+
+        - name: Uninstall Helm Charts
+          run: |
+            helm uninstall nginx-ingress -n nginx-ingress \
+                           cert-manager -n cert-manager \
+                           external-dns -n external-dns \
+                           argocd -n argo-cd
+
+        - name: Delete ArgoCD related CRDs
+          run: |
+            kubectl delete crd applications.argoproj.io \
+                               applicationsets.argoproj.io \
+                               appprojects.argoproj.io
+        
+        - name: Delete Cert-Manager related CRDs
+          run: |
+            kubectl delete crd challenges.acme.cert-manager.io \
+                               orders.acme.cert-manager.io \
+                               certificaterequests.cert-manager.io \
+                               certificates.cert-manager.io \
+                               clusterissuers.cert-manager.io \
+                               issuers.cert-manager.io
 
         - name: Terraform Destroy
           run: terraform destroy -auto-approve
