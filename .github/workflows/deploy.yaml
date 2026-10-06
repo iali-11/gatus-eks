@@ -78,14 +78,16 @@ jobs:
           run: |
             kubectl wait \
             --for=condition=Ready \
-            clusterissuer/issuer 
+            clusterissuer/issuer \
+            --timeout=300
 
         - name: Wait For Argo CD TLS Certificate
           run: |
             kubectl wait \
             --namespace argo-cd \
             --for=condition=Ready \
-            certificate/argocd-ingress-tls
+            certificate/argocd-ingress-tls \
+            --timeout=5m
 
             echo "Argo CD ingress certificate is Ready!"
 
