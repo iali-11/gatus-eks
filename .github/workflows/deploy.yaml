@@ -79,7 +79,7 @@ jobs:
             kubectl wait \
             --for=condition=Ready \
             clusterissuer/issuer \
-            --timeout=300
+            --timeout=300s
 
         - name: Wait For Argo CD TLS Certificate
           run: |
