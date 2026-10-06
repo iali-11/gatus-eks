@@ -5,6 +5,10 @@ resource "helm_release" "nginx" {
 
   create_namespace = true
   namespace        = "nginx-ingress"
+
+  depends_on = [
+    var.eks_access_policy_association_arn
+  ]
 }
 
 resource "helm_release" "cert_manager" {
@@ -54,5 +58,9 @@ resource "helm_release" "argo_cd" {
 
   values = [
     file("${path.module}/values/argocd.yaml")
+  ]
+
+  depends_on = [ 
+    var.eks_access_policy_association_arn
   ]
 }
