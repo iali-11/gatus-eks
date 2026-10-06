@@ -101,7 +101,7 @@ jobs:
             echo "password=$PASSWORD" >> "$GITHUB_OUTPUT"
 
         - name: Install Argo CD CLI
-          uses: clowdhaus/argo-cd-action@main
+          uses: imajeetyadav/argocd-cli@v2
           with:
             version: latest
 
