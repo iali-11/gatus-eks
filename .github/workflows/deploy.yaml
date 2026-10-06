@@ -64,17 +64,17 @@ jobs:
         - name: Terraform Apply
           run: terraform apply -auto-approve tfplan
 
-        - name: Authenticate Into The Cluster
+        - name: Authenticate into the Cluster
           run: |
             aws eks update-kubeconfig \
             --region ${{ env.AWS_REGION }} \
             --name ${{ env.CLUSTER_NAME }}
           
-        - name: Deploy Cluster Issuer In Cluster
+        - name: Deploy Clusterissuer in Cluster
           run: kubectl apply -f issuer.yaml
           working-directory: ./cert-manager
 
-        - name: Wait for Cluster Issuer
+        - name: Wait for Clusterissuer
           run: |
             kubectl wait \
             --for=condition=Ready \
@@ -90,3 +90,41 @@ jobs:
             --timeout=5m
 
             echo "Argo CD ingress certificate is Ready!"
+
+        - name: Get Argo CD initial password
+          id: argocd-password
+          run: |
+            PASSWORD=$(kubectl -n argo-cd get secret argocd-initial-admin-secret \
+            -o jsonpath="{.data.password}" | base64 -d)
+
+            echo "::add-mask::$PASSWORD"
+            echo "password=$PASSWORD" >> "$GITHUB_OUTPUT"
+
+        - name: Install Argo CD CLI
+          uses: clowdhaus/argo-cd-action@main
+          with:
+            version: latest
+
+        - name: Log into Argo CD
+          run: |
+            argocd login argocd.gatus.ibrahimali.co.uk \
+              --username admin \
+              --password "${{ steps.argocd-password.outputs.password }}" \
+              --grpc-web
+
+        - name: Deploy gatus application on Argo CD
+          working-directory: ./argo-cd
+          run: |
+            kubectl apply -f gatus-argo.yaml
+
+        - name: Wait for sync to complete
+          run: |
+            argocd app wait gatus \
+              --sync \
+              --health \
+              --timeout 300 \
+              --grpc-web
+
+        - name: Verify deployment health
+          run: |
+            curl -f https://gatus.ibrahimali.co.uk
