@@ -6,10 +6,6 @@ resource "helm_release" "nginx" {
   create_namespace = true
   namespace        = "nginx-ingress"
 
-  values = [
-    file("${path.module}/values/nginx.yaml")
-  ]
-
   depends_on = [
     var.eks_access_policy_association_arn
   ]
