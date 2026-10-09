@@ -12,7 +12,6 @@ server:
     annotations:
       nginx.org/hsts: "false"
       cert-manager.io/cluster-issuer: issuer
-      nginx.org/grpc-services: argocd-server
 
     hostname: argocd.gatus.ibrahimali.co.uk
 
