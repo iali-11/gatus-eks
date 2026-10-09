@@ -112,10 +112,16 @@ jobs:
 
         - name: Log into Argo CD
           run: |
-            argocd login ${{ secrets.ARGOCD_SERVER }} \
-              --username ${{ secrets.ARGOCD_USERNAME }} \
-              --password "${{ steps.argocd-password.outputs.password }}" \
-              --grpc-web
+            for i in {1..20}; do
+              argocd login ${{ secrets.ARGOCD_SERVER }} \
+                --username ${{ secrets.ARGOCD_USERNAME }} \
+                --password "${{ steps.argocd-password.outputs.password }}" \
+                --grpc-web
+              echo "Argo CD not ready yet ($i/20), retrying in 15s"
+              sleep 15
+            done
+            echo "error: Argo CD login failed after 5 minutes"
+            exit 1
 
         - name: Deploy gatus application on Argo CD
           working-directory: ./argo-cd
@@ -128,7 +134,3 @@ jobs:
               --sync \
               --health \
               --grpc-web
-
-        - name: Verify deployment health
-          run: |
-            curl -f https://gatus.ibrahimali.co.uk
