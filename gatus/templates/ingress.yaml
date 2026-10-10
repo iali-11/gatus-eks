@@ -4,18 +4,12 @@ metadata:
   name: gatus-ingress
   annotations:
     cert-manager.io/cluster-issuer: issuer
-    external-dns.kubernetes.io/hostname: gatus.ibrahimali.co.uk
 
 spec:
   ingressClassName: nginx
 
-  tls:
-    - hosts:
-        - gatus.ibrahimali.co.uk
-      secretName: gatus-tls
-
   rules:
-    - host: gatus.ibrahimali.co.uk
+    - host: app.gatus.ibrahimali.co.uk
       http:
         paths:
           - path: /
@@ -25,3 +19,8 @@ spec:
                 name: gatus-svc
                 port:
                   number: 80
+
+  tls:
+    - hosts:
+        - app.gatus.ibrahimali.co.uk
+      secretName: app-gatus-tls
