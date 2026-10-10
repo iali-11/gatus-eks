@@ -95,52 +95,23 @@ jobs:
 
             echo "Argo CD ingress certificate is Ready!"
 
-        - name: Get Argo CD initial password
-          id: argocd-password
-          run: |
-            PASSWORD=$(kubectl -n argo-cd get secret argocd-initial-admin-secret \
-            -o jsonpath="{.data.password}" | base64 -d)
-
-            echo "::add-mask::$PASSWORD"
-            echo "password=$PASSWORD" >> "$GITHUB_OUTPUT"
-
-        - name: Install ArgoCD CLI
-          run: |
-            curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-            chmod +x argocd
-            sudo mv argocd /usr/local/bin/
-
-        - name: Check ArgoCD CLI version
-          run: |
-            argocd version --client
-
-        - name: Probe Argo CD endpoint
-          run: |
-            HOST="${{ secrets.ARGOCD_SERVER }}"
-            getent hosts "$HOST" || echo "DNS: no record for host"
-            curl -v --max-time 15 "https://$HOST/healthz?full=true" || true
-
-        - name: Log into Argo CD
-          run: |
-            for i in {1..20}; do
-              argocd login ${{ secrets.ARGOCD_SERVER }} \
-                --username ${{ secrets.ARGOCD_USERNAME }} \
-                --password "${{ steps.argocd-password.outputs.password }}" \
-                --grpc-web
-              echo "Argo CD not ready yet ($i/20), retrying in 15s"
-              sleep 15
-            done
-            echo "error: Argo CD login failed after 5 minutes"
-            exit 1
-
         - name: Deploy gatus application on Argo CD
           working-directory: ./argo-cd
           run: |
             kubectl apply -f gatus-argo.yaml
 
-        - name: Wait for sync to complete
+        - name: Wait for Argo CD Application to sync
           run: |
-            argocd app wait gatus \
-              --sync \
-              --health \
-              --grpc-web
+            kubectl wait \
+              --namespace argo-cd \
+              --for=jsonpath='{.status.sync.status}'=Synced \
+              application/gatus \
+              --timeout=10m
+
+        - name: Wait for Gatus Application to Become Healthy
+          run: |
+            kubectl wait \
+              --namespace argo-cd \
+              --for=jsonpath='{.status.health.status}'=Healthy \
+              application/gatus \
+              --timeout=10m
