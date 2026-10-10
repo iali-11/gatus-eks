@@ -60,10 +60,10 @@ jobs:
 
         - name: Uninstall Helm Charts
           run: |
-            helm uninstall nginx -n nginx-ingress \
-                           cert_manager -n cert-manager \
-                           external_dns -n external-dns \
-                           argo_cd -n argo-cd
+            helm uninstall nginx-ingress -n nginx-ingress 
+            helm uninstall cert-manager -n cert-manager 
+            helm uninstall external-dns -n external-dns 
+            helm uninstall argocd -n argo-cd
 
         - name: Delete ArgoCD related CRDs
           run: |
