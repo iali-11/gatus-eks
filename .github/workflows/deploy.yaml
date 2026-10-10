@@ -58,10 +58,6 @@ jobs:
             framework: terraform
             soft_fail: true
 
-        - name: Clear Checkov output from env
-          run: |
-            echo "CHECKOV_RESULTS=" >> "$GITHUB_ENV"
-
         - name: Terraform Plan
           run: terraform plan -input=false -out=tfplan
 
