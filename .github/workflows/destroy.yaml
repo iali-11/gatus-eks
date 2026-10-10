@@ -53,12 +53,17 @@ jobs:
           run: |
             kubectl delete -f gatus-argo.yaml
 
+        - name: Delete Clusterissuer
+          working-directory: ./cert-manager
+          run: |
+            kubectl delete -f issuer.yaml
+
         - name: Uninstall Helm Charts
           run: |
-            helm uninstall nginx-ingress -n nginx-ingress \
-                           cert-manager -n cert-manager \
-                           external-dns -n external-dns \
-                           argocd -n argo-cd
+            helm uninstall nginx -n nginx-ingress \
+                           cert_manager -n cert-manager \
+                           external_dns -n external-dns \
+                           argo_cd -n argo-cd
 
         - name: Delete ArgoCD related CRDs
           run: |
