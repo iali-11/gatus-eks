@@ -58,6 +58,10 @@ jobs:
             framework: terraform
             soft_fail: true
 
+        - name: Clear Checkov output from env
+          run: |
+            echo "CHECKOV_RESULTS=" >> "$GITHUB_ENV"
+
         - name: Terraform Plan
           run: terraform plan -input=false -out=tfplan
 
@@ -109,6 +113,12 @@ jobs:
         - name: Check ArgoCD CLI version
           run: |
             argocd version --client
+
+        - name: Probe Argo CD endpoint
+          run: |
+            HOST="${{ secrets.ARGOCD_SERVER }}"
+            getent hosts "$HOST" || echo "DNS: no record for host"
+            curl -v --max-time 15 "https://$HOST/healthz?full=true" || true
 
         - name: Log into Argo CD
           run: |
