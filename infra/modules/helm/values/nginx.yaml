@@ -1,4 +1,0 @@
-controller:
-  config:
-    entries:
-      http2: "true"
