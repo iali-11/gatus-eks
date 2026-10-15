@@ -5,10 +5,6 @@ resource "helm_release" "nginx" {
 
   create_namespace = true
   namespace        = "nginx-ingress"
-
-  depends_on = [
-    var.eks_access_policy_association_arn
-  ]
 }
 
 resource "helm_release" "cert_manager" {
@@ -24,8 +20,7 @@ resource "helm_release" "cert_manager" {
   ]
 
   depends_on = [
-    var.cert_manager_role_arn,
-    var.eks_access_policy_association_arn
+    var.cert_manager_role_arn
   ]
 }
 
@@ -42,8 +37,7 @@ resource "helm_release" "external_dns" {
   ]
 
   depends_on = [
-    var.external_dns_role_arn,
-    var.eks_access_policy_association_arn
+    var.external_dns_role_arn
   ]
 }
 
@@ -60,7 +54,20 @@ resource "helm_release" "argo_cd" {
     file("${path.module}/values/argocd.yaml")
   ]
 
-  depends_on = [
-    var.eks_access_policy_association_arn
+}
+
+resource "helm_release" "prometheus_stack" {
+  name       = "prometheus-stack"
+  repository = "https://prometheus-community.github.io/helm-charts"
+  chart      = "kube-prometheus-stack"
+
+  create_namespace = true
+  namespace        = "monitoring"
+
+  values = [
+    file("${path.module}/values/prometheus-stack.yaml")
   ]
+
+  timeout = 900
+  wait    = true
 }
