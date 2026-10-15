@@ -9,7 +9,7 @@ resource "aws_vpc" "vpc" {
 }
 
 resource "aws_subnet" "public_subnets" {
-  count = 3
+  count = 2
 
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.public_subnet_cidr_blocks[count.index]
@@ -23,7 +23,7 @@ resource "aws_subnet" "public_subnets" {
 }
 
 resource "aws_subnet" "private_subnets" {
-  count = 3
+  count = 2
 
   vpc_id            = aws_vpc.vpc.id
   cidr_block        = var.private_subnet_cidr_blocks[count.index]
@@ -90,14 +90,14 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "public" {
-  count = 3
+  count = 2
 
   subnet_id      = aws_subnet.public_subnets[count.index].id
   route_table_id = aws_route_table.public.id
 }
 
 resource "aws_route_table_association" "private" {
-  count = 3
+  count = 2
 
   subnet_id      = aws_subnet.private_subnets[count.index].id
   route_table_id = aws_route_table.private.id
