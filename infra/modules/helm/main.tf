@@ -9,6 +9,10 @@ resource "helm_release" "nginx" {
   depends_on = [
     var.eks_access_policy_association_arn
   ]
+
+  values = [
+    file("${path.module}/values/nginx.yaml")
+  ]
 }
 
 resource "helm_release" "cert_manager" {
