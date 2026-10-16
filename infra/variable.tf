@@ -16,17 +16,17 @@ variable "vpc_cidr_block" {
 }
 
 variable "public_subnet_cidr_blocks" {
-  default = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
+  default = ["10.0.0.0/24", "10.0.1.0/24"]
   type    = list(string)
 }
 
 variable "private_subnet_cidr_blocks" {
-  default = ["10.0.3.0/24", "10.0.4.0/24", "10.0.5.0/24"]
+  default = ["10.0.2.0/24", "10.0.3.0/24"]
   type    = list(string)
 }
 
 variable "availability_zones" {
-  default = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
+  default = ["eu-west-2a", "eu-west-2b"]
   type    = list(string)
 }
 
@@ -121,17 +121,17 @@ variable "kube_version" {
 
 variable "desired_size" {
   type    = number
-  default = 3
+  default = 2
 }
 
 variable "max_size" {
   type    = number
-  default = 4
+  default = 3
 }
 
 variable "min_size" {
   type    = number
-  default = 3
+  default = 2
 }
 
 variable "max_unavailable" {
@@ -191,7 +191,7 @@ variable "disk_type" {
 
 variable "instance_types" {
   type    = string
-  default = "t3.medium"
+  default = "t3.large"
 }
 
 variable "oidc_role_principle_arn" {
