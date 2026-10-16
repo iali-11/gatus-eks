@@ -5,6 +5,21 @@ grafana:
 
   adminUser: admin
 
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+
+    annotations:
+      cert-manager.io/cluster-issuer: issuer
+
+    hosts:
+      - grafana.gatus.ibrahimali.co.uk
+
+    tls:
+    - hosts:
+        - grafana.gatus.ibrahimali.co.uk
+      secretName: grafana-ingress-tls
+
   persistence:
     enabled: true
     type: sts
