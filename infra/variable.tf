@@ -121,17 +121,17 @@ variable "kube_version" {
 
 variable "desired_size" {
   type    = number
-  default = 2
+  default = 3
 }
 
 variable "max_size" {
   type    = number
-  default = 3
+  default = 4
 }
 
 variable "min_size" {
   type    = number
-  default = 2
+  default = 3
 }
 
 variable "max_unavailable" {
