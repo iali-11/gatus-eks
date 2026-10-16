@@ -16,17 +16,17 @@ variable "vpc_cidr_block" {
 }
 
 variable "public_subnet_cidr_blocks" {
-  default = ["10.0.0.0/24", "10.0.1.0/24"]
+  default = ["10.0.0.0/24", "10.0.1.0/24", "10.0.2.0/24"]
   type    = list(string)
 }
 
 variable "private_subnet_cidr_blocks" {
-  default = ["10.0.2.0/24", "10.0.3.0/24"]
+  default = ["10.0.3.0/24", "10.0.4.0/24", "10.0.5.0/24"]
   type    = list(string)
 }
 
 variable "availability_zones" {
-  default = ["eu-west-2a", "eu-west-2b"]
+  default = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
   type    = list(string)
 }
 
