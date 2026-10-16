@@ -64,6 +64,7 @@ jobs:
             helm uninstall cert-manager -n cert-manager 
             helm uninstall external-dns -n external-dns 
             helm uninstall argocd -n argo-cd
+            helm uninstall prometheus-stack -n monitoring
 
         - name: Delete ArgoCD related CRDs
           run: |
