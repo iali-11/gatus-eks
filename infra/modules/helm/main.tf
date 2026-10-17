@@ -7,7 +7,8 @@ resource "helm_release" "nginx" {
   namespace        = "nginx-ingress"
 
   depends_on = [
-    var.eks_access_policy_association_arn
+    var.eks_access_policy_association_arn,
+    helm_release.prometheus_stack
   ]
 
   values = [
