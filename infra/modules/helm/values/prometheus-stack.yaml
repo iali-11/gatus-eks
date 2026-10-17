@@ -39,6 +39,30 @@ grafana:
   service:
     type: ClusterIP
 
+  grafana.ini:
+    server:
+      root_url: https://grafana.gatus.ibrahimali.co.uk
+
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: custom
+          orgId: 1
+          folder: Custom
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/custom
+
+  dashboards:
+    custom:
+      nginx-ingress:
+        gnetId: 9614
+        revision: 1
+        datasource: Prometheus
+
 # Prometheus Configuration
 
 prometheus:
