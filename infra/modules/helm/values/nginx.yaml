@@ -4,4 +4,4 @@ controller:
     serviceMonitor:
       enabled: true
       additionalLabels:
-        release: prometheus-stack
+        release: prometheus_stack
