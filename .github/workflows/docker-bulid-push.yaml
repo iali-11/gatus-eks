@@ -52,7 +52,7 @@ jobs:
         - name: Build Image
           uses: docker/build-push-action@v7
           with:
-            context: .
+            context: app
             file: app/Dockerfile
             load: true
             push: false
