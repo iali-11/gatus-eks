@@ -70,6 +70,8 @@ jobs:
         - name: Push to ECR
           uses: docker/build-push-action@v7
           with:
+            context: app
+            file: app/Dockerfile
             platforms: linux/amd64
             push: true
             tags: ${{ steps.login-ecr.outputs.registry }}/gatus:${{ github.sha }}
