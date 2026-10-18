@@ -72,3 +72,4 @@ jobs:
           with:
             platforms: linux/amd64
             push: true
+            tags: ${{ steps.login-ecr.outputs.registry }}/gatus:${{ github.sha }}
