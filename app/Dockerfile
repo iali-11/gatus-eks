@@ -22,7 +22,6 @@ FROM scratch AS runtime
 WORKDIR /app
 
 COPY --from=builder /app/gatus ./gatus
-COPY --from=builder /app/config.yaml ./config.yaml
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
