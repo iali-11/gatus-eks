@@ -59,7 +59,7 @@ grafana:
   dashboards:
     custom:
       nginx-ingress:
-        gnetId: 11199
+        gnetId: 9614
         revision: 1
         datasource: Prometheus
 
