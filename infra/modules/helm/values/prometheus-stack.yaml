@@ -22,7 +22,7 @@ grafana:
 
   persistence:
     enabled: true
-    type: sts
+    type: pvc
     storageClassName: gp2
     accessModes:
       - ReadWriteOnce
@@ -56,12 +56,12 @@ grafana:
           options:
             path: /var/lib/grafana/dashboards/custom
 
-  dashboards:
-    custom:
-      nginx-ingress:
-        gnetId: 9614
-        revision: 1
-        datasource: Prometheus
+  # dashboards:
+  #   custom:
+  #     nginx-ingress:
+  #       gnetId: 9614
+  #       revision: 1
+  #       datasource: Prometheus
 
 # Prometheus Configuration
 
@@ -70,6 +70,10 @@ prometheus:
 
   prometheusSpec:
     retention: 7d
+
+    serviceMonitorSelectorNilUsesHelmValues: false
+    podMonitorSelectorNilUsesHelmValues: false
+    ruleSelectorNilUsesHelmValues: false
 
     storageSpec:
       volumeClaimTemplate:
