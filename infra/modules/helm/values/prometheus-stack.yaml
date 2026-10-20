@@ -56,12 +56,12 @@ grafana:
           options:
             path: /var/lib/grafana/dashboards/custom
 
-  # dashboards:
-  #   custom:
-  #     nginx-ingress:
-  #       gnetId: 9614
-  #       revision: 1
-  #       datasource: Prometheus
+  dashboards:
+    custom:
+      nginx-ingress:
+        gnetId: 11199
+        revision: 1
+        datasource: Prometheus
 
 # Prometheus Configuration
 
