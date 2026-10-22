@@ -43,26 +43,6 @@ grafana:
     server:
       root_url: https://grafana.gatus.ibrahimali.co.uk
 
-  dashboardProviders:
-    dashboardproviders.yaml:
-      apiVersion: 1
-      providers:
-        - name: custom
-          orgId: 1
-          folder: Custom
-          type: file
-          disableDeletion: false
-          editable: true
-          options:
-            path: /var/lib/grafana/dashboards/custom
-
-  dashboards:
-    custom:
-      nginx-ingress:
-        gnetId: 9614
-        revision: 1
-        datasource: Prometheus
-
 # Prometheus Configuration
 
 prometheus:
@@ -104,3 +84,21 @@ prometheus-node-exporter:
 
 prometheus-pushgateway:
   enabled: false
+
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeProxy:
+  enabled: false
+
+defaultRules:
+  create: true
+  rules:
+    etcd: false
+    kubeControllerManager: false
+    kubeSchedulerAlerting: false
+    kubeSchedulerRecording: false
+    kubeProxy: false
