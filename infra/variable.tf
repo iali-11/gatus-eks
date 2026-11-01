@@ -92,14 +92,14 @@ variable "ebs_csi_role_name" {
   default = "ebs_csi_role"
 }
 
-variable "efs_csi_policy_arn" {
+variable "external_secret_role_name" {
   type    = string
-  default = "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy"
+  default = "external_secret_role"
 }
 
-variable "efs_csi_role_name" {
+variable "external_secret_policy_name" {
   type    = string
-  default = "efs_csi_role"
+  default = "external_secret_policy"
 }
 
 # EKS Values
@@ -159,11 +159,6 @@ variable "ebs-csi" {
   default = "aws-ebs-csi-driver"
 }
 
-variable "efs_csi" {
-  type    = string
-  default = "aws-efs-csi-driver"
-}
-
 variable "pod-identity-agent" {
   type    = string
   default = "eks-pod-identity-agent"
@@ -176,7 +171,7 @@ variable "public_access_cidrs" {
 
 variable "capacity_type" {
   type    = string
-  default = "ON_DEMAND"
+  default = "SPOT"
 }
 
 variable "disk_size" {
@@ -207,4 +202,46 @@ variable "eks_admin_policy_arn" {
 variable "Ibrahim_principal_arn" {
   type    = string
   default = "arn:aws:iam::050288151438:user/Ibrahim"
+}
+
+# RDS Values
+
+variable "engine_version" {
+  type    = string
+  default = "17"
+}
+
+variable "instance_class" {
+  type    = string
+  default = "db.t4g.micro"
+}
+
+variable "allocated_storage" {
+  type    = number
+  default = 20
+}
+
+variable "max_allocated_storage" {
+  type    = number
+  default = 50
+}
+
+variable "db_name" {
+  type    = string
+  default = "gatus-postgres"
+}
+
+variable "db_username" {
+  type    = string
+  default = "gatus"
+}
+
+variable "multi_az" {
+  type    = bool
+  default = false
+}
+
+variable "backup_retention_period" {
+  type    = number
+  default = 1
 }
