@@ -83,37 +83,6 @@ resource "aws_iam_role_policy_attachment" "ebs_csi_policy_attachment" {
   policy_arn = var.ebs_csi_policy_arn
 }
 
-resource "aws_iam_role" "efs_csi" {
-  name = var.efs_csi_role_name
-
-  assume_role_policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Action = [
-          "sts:AssumeRole",
-          "sts:TagSession"
-        ]
-        Effect = "Allow"
-        Sid    = ""
-        Principal = {
-          Service = "pods.eks.amazonaws.com"
-        }
-      },
-    ]
-  })
-
-  tags = {
-    project-name = var.project-name
-    cluster-name = var.cluster-name
-  }
-}
-
-resource "aws_iam_role_policy_attachment" "efs_csi_policy_attachment" {
-  role       = aws_iam_role.efs_csi.name
-  policy_arn = var.efs_csi_policy_arn
-}
-
 resource "aws_iam_role" "cert_manager" {
   name = var.cert_manager_role_name
 
@@ -227,4 +196,49 @@ resource "aws_iam_policy" "external_dns_01" {
 resource "aws_iam_role_policy_attachment" "external_dns_policy_attachment" {
   role       = aws_iam_role.external_dns.name
   policy_arn = aws_iam_policy.external_dns_01.arn
+}
+
+resource "aws_iam_role" "external_secret" {
+  name = var.external_secret_role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Action = [
+        "sts:AssumeRole",
+        "sts:TagSession"
+      ]
+      Effect    = "Allow"
+      Sid       = ""
+      Principal = { Service = "pods.eks.amazonaws.com" }
+    }]
+  })
+
+  tags = {
+    project-name = var.project-name
+    cluster-name = var.cluster-name
+  }
+}
+
+resource "aws_iam_policy" "external_secret_policy" {
+  name = var.external_secret_policy_name
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:DescribeSecret"
+        ]
+        Effect   = "Allow"
+        Resource = var.db_secret_arn
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "external_secret" {
+  role       = aws_iam_role.external_secret.name
+  policy_arn = aws_iam_policy.external_secret_policy.arn
 }
