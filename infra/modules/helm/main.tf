@@ -52,6 +52,33 @@ resource "helm_release" "external_dns" {
   ]
 }
 
+resource "helm_release" "external_secrets" {
+  name       = "external-secrets"
+  repository = "https://charts.external-secrets.io"
+  chart      = "external-secrets"
+
+  create_namespace = true
+  namespace        = "external-secrets"
+
+  depends_on = [
+    var.eks_access_policy_association_arn,
+    var.external_secret_role_arn
+  ]
+}
+
+resource "helm_release" "reloader" {
+  name       = "reloader"
+  repository = "https://stakater.github.io/stakater-charts"
+  chart      = "reloader"
+
+  create_namespace = true
+  namespace        = "reloader"
+
+  depends_on = [
+    var.eks_access_policy_association_arn
+  ]
+}
+
 resource "helm_release" "argo_cd" {
   name       = "argocd"
   repository = "https://argoproj.github.io/argo-helm"
