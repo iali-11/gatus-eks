@@ -10,58 +10,58 @@ module "vpc" {
 }
 
 module "eks" {
-  source                  = "./modules/eks"
-  project-name            = var.project-name
-  private_subnets_ids     = module.vpc.private_subnets_ids
-  cluster-name            = var.cluster-name
-  eks_cluster_role_arn    = module.iam.eks_cluster_role_arn
-  node_role_arn           = module.iam.node_role_arn
-  kube-proxy              = var.kube-proxy
-  vpc-cni                 = var.vpc-cni
-  coredns                 = var.coredns
-  ebs-csi                 = var.ebs-csi
-  efs_csi                 = var.efs_csi
-  pod-identity-agent      = var.pod-identity-agent
-  auth_mode               = var.auth_mode
-  kube_version            = var.kube_version
-  desired_size            = var.desired_size
-  max_size                = var.max_size
-  min_size                = var.min_size
-  max_unavailable         = var.max_unavailable
-  public_access_cidrs     = var.public_access_cidrs
-  depends_on              = [module.iam]
-  cert_manager_role_arn   = module.iam.cert_manager_role_arn
-  external_dns_role_arn   = module.iam.external_dns_role_arn
-  ebs_csi_role_arn        = module.iam.ebs_csi_role_arn
-  efs_csi_role_arn        = module.iam.efs_csi_role_arn
-  capacity_type           = var.capacity_type
-  disk_size               = var.disk_size
-  disk_type               = var.disk_type
-  instance_types          = var.instance_types
-  eks_cluster_sg_id       = module.sg.eks_cluster_sg_id
-  node_sg_id              = module.sg.node_sg_id
-  oidc_role_principle_arn = var.oidc_role_principle_arn
-  eks_admin_policy_arn    = var.eks_admin_policy_arn
-  Ibrahim_principal_arn   = var.Ibrahim_principal_arn
+  source                   = "./modules/eks"
+  project-name             = var.project-name
+  private_subnets_ids      = module.vpc.private_subnets_ids
+  cluster-name             = var.cluster-name
+  eks_cluster_role_arn     = module.iam.eks_cluster_role_arn
+  node_role_arn            = module.iam.node_role_arn
+  kube-proxy               = var.kube-proxy
+  vpc-cni                  = var.vpc-cni
+  coredns                  = var.coredns
+  ebs-csi                  = var.ebs-csi
+  pod-identity-agent       = var.pod-identity-agent
+  auth_mode                = var.auth_mode
+  kube_version             = var.kube_version
+  desired_size             = var.desired_size
+  max_size                 = var.max_size
+  min_size                 = var.min_size
+  max_unavailable          = var.max_unavailable
+  public_access_cidrs      = var.public_access_cidrs
+  depends_on               = [module.iam]
+  cert_manager_role_arn    = module.iam.cert_manager_role_arn
+  external_dns_role_arn    = module.iam.external_dns_role_arn
+  ebs_csi_role_arn         = module.iam.ebs_csi_role_arn
+  capacity_type            = var.capacity_type
+  disk_size                = var.disk_size
+  disk_type                = var.disk_type
+  instance_types           = var.instance_types
+  eks_cluster_sg_id        = module.sg.eks_cluster_sg_id
+  node_sg_id               = module.sg.node_sg_id
+  oidc_role_principle_arn  = var.oidc_role_principle_arn
+  eks_admin_policy_arn     = var.eks_admin_policy_arn
+  Ibrahim_principal_arn    = var.Ibrahim_principal_arn
+  external_secret_role_arn = module.iam.external_secret_role_arn
 }
 
 module "iam" {
-  source                     = "./modules/iam"
-  cluster-name               = var.cluster-name
-  project-name               = var.cluster-name
-  cluster_policy_arn         = var.cluster_policy_arn
-  eks_worker_node_policy_arn = var.eks_worker_node_policy_arn
-  ecr_registry_policy_arn    = var.ecr_registry_policy_arn
-  cni_policy_arn             = var.cni_policy_arn
-  hostedzone_id              = var.hostedzone_id
-  cert_manager_role_name     = var.cert_manager_role_name
-  cert_manager_policy_name   = var.cert_manager_policy_name
-  external_dns_role_name     = var.external_dns_role_name
-  external_dns_policy_name   = var.external_dns_policy_name
-  ebs_csi_policy_arn         = var.ebs_csi_policy_arn
-  ebs_csi_role_name          = var.ebs_csi_role_name
-  efs_csi_policy_arn         = var.efs_csi_policy_arn
-  efs_csi_role_name          = var.efs_csi_role_name
+  source                      = "./modules/iam"
+  cluster-name                = var.cluster-name
+  project-name                = var.cluster-name
+  cluster_policy_arn          = var.cluster_policy_arn
+  eks_worker_node_policy_arn  = var.eks_worker_node_policy_arn
+  ecr_registry_policy_arn     = var.ecr_registry_policy_arn
+  cni_policy_arn              = var.cni_policy_arn
+  hostedzone_id               = var.hostedzone_id
+  cert_manager_role_name      = var.cert_manager_role_name
+  cert_manager_policy_name    = var.cert_manager_policy_name
+  external_dns_role_name      = var.external_dns_role_name
+  external_dns_policy_name    = var.external_dns_policy_name
+  ebs_csi_policy_arn          = var.ebs_csi_policy_arn
+  ebs_csi_role_name           = var.ebs_csi_role_name
+  external_secret_role_name   = var.external_secret_role_name
+  external_secret_policy_name = var.external_secret_policy_name
+  db_secret_arn               = module.rds.master_user_secret_arn
 }
 
 module "sg" {
@@ -72,18 +72,26 @@ module "sg" {
   project-name       = var.project-name
 }
 
-module "efs" {
-  source              = "./modules/efs"
-  project-name        = var.project-name
-  private_subnets_ids = module.vpc.private_subnets_ids
-  efs_sg_id           = module.sg.efs_sg_id
+module "rds" {
+  source                  = "./modules/rds"
+  project-name            = var.project-name
+  private_subnets_ids     = module.vpc.private_subnets_ids
+  rds_sg_id               = module.sg.rds_sg_id
+  engine_version          = var.engine_version
+  instance_class          = var.instance_class
+  allocated_storage       = var.allocated_storage
+  max_allocated_storage   = var.max_allocated_storage
+  db_name                 = var.db_name
+  db_username             = var.db_username
+  multi_az                = var.multi_az
+  backup_retention_period = var.backup_retention_period
 }
 
 module "helm" {
-  source = "./modules/helm"
-
+  source                            = "./modules/helm"
   project-name                      = var.project-name
   cert_manager_role_arn             = module.iam.cert_manager_role_arn
   external_dns_role_arn             = module.iam.external_dns_role_arn
+  external_secret_role_arn          = module.iam.external_secret_role_arn
   eks_access_policy_association_arn = module.eks.eks_access_policy_association_arn
 }
