@@ -34,10 +34,6 @@ variable "ebs-csi" {
   type = string
 }
 
-variable "efs_csi" {
-  type = string
-}
-
 variable "pod-identity-agent" {
   type = string
 }
@@ -82,6 +78,10 @@ variable "ebs_csi_role_arn" {
   type = string
 }
 
+variable "external_secret_role_arn" {
+  type = string
+}
+
 variable "capacity_type" {
   type = string
 }
@@ -103,10 +103,6 @@ variable "eks_cluster_sg_id" {
 }
 
 variable "node_sg_id" {
-  type = string
-}
-
-variable "efs_csi_role_arn" {
   type = string
 }
 
