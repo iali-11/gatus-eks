@@ -10,6 +10,10 @@ variable "external_dns_role_arn" {
   type = string
 }
 
+variable "external_secret_role_arn" {
+  type = string
+}
+
 variable "eks_access_policy_association_arn" {
   type = string
 }
