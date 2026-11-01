@@ -50,10 +50,14 @@ variable "ebs_csi_role_name" {
   type = string
 }
 
-variable "efs_csi_role_name" {
+variable "external_secret_role_name" {
   type = string
 }
 
-variable "efs_csi_policy_arn" {
+variable "external_secret_policy_name" {
+  type = string
+}
+
+variable "db_secret_arn" {
   type = string
 }
