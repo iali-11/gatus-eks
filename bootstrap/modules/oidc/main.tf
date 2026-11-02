@@ -134,6 +134,29 @@ resource "aws_iam_role_policy" "github_actions_terraform_policy" {
           "iam:ListInstanceProfilesForRole"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "AdditionalServicePermissions"
+        Effect = "Allow"
+        Action = [
+          # KMS permissions
+          "kms:CreateKey",
+          "kms:DescribeKey",
+          "kms:EnableKey",
+          "kms:DisableKey",
+          "kms:PutKeyPolicy",
+          "kms:CreateAlias",
+          "kms:UpdateAlias",
+          "kms:DeleteAlias",
+          "kms:TagResource",
+          "kms:UntagResource",
+          "kms:ListResourceTags",
+          "kms:ListAliases",
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:GenerateDataKey"
+        ]
+        Resource = "*"
       }
     ]
   })
