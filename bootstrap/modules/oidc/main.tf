@@ -98,7 +98,7 @@ resource "aws_iam_role_policy" "github_actions_terraform_policy" {
         Effect = "Allow"
         Action = [
           "ec2:*",
-          "elasticfilesystem:*",
+          "rds:*",
           "eks:*",
           "elasticloadbalancing:*",
           "route53:*",
