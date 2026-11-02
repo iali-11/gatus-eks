@@ -228,7 +228,7 @@ variable "max_allocated_storage" {
 
 variable "db_name" {
   type    = string
-  default = "gatus-postgres"
+  default = "gatus"
 }
 
 variable "db_username" {
