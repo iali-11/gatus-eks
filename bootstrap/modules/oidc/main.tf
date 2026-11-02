@@ -154,9 +154,27 @@ resource "aws_iam_role_policy" "github_actions_terraform_policy" {
           "kms:ListAliases",
           "kms:Encrypt",
           "kms:Decrypt",
-          "kms:GenerateDataKey"
+          "kms:GenerateDataKey",
+          # Secrets Manager permissions
+          "secretsmanager:CreateSecret",
+          "secretsmanager:DeleteSecret",
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:PutSecretValue",
+          "secretsmanager:UpdateSecret",
+          "secretsmanager:TagResource",
+          "secretsmanager:UntagResource",
+          "secretsmanager:ListSecrets"
         ]
         Resource = "*"
+      },
+      {
+        Sid    = "RDSServiceLinkedRole"
+        Effect = "Allow"
+        Action = [
+          "iam:CreateServiceLinkedRole"
+        ]
+        Resource = "arn:aws:iam::*:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS"
       }
     ]
   })
