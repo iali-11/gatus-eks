@@ -5,6 +5,10 @@ metadata:
 
 data:
   config.yaml: |
+    storage:
+      type: postgres
+      path: "host=${DB_HOST} port=5432 user=${DB_USER} password=${DB_PASSWORD} dbname=${DB_NAME} sslmode=require"
+
     endpoints:
       - name: front-end
         group: core
