@@ -4,6 +4,8 @@ metadata:
   name: gatus-deployment
   labels:
     app: gatus
+  annotations:
+    reloader.stakater.com/auto: "true"
 
 spec:
   replicas: 2
@@ -34,9 +36,17 @@ spec:
         ports:
         - containerPort: 8080
 
+        envFrom:
+          - secretRef:
+              name: gatus-db
+
         env:
           - name: GATUS_CONFIG_PATH
             value: /config/config.yaml
+          - name: DB_HOST
+            value: gatus-eks-postgres.cpek2ikksmbo.eu-west-2.rds.amazonaws.com
+          - name: DB_NAME
+            value: gatus
 
         volumeMounts:
           - name: gatus-config
