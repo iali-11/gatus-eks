@@ -7,7 +7,7 @@ data:
   config.yaml: |
     storage:
       type: postgres
-      path: "host=${DB_HOST} port=5432 user=${DB_USER} password=${DB_PASSWORD} dbname=${DB_NAME} sslmode=require"
+      path: "postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:5432/${DB_NAME}?sslmode=require"
 
     endpoints:
       - name: front-end
