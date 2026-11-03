@@ -65,6 +65,8 @@ jobs:
             helm uninstall external-dns -n external-dns 
             helm uninstall argocd -n argo-cd
             helm uninstall prometheus-stack -n monitoring
+            helm uninstall external-secrets -n external-secrets
+            helm uninstall reloader -n reloader
 
         - name: Delete ArgoCD related CRDs
           run: |
@@ -80,6 +82,14 @@ jobs:
                                certificates.cert-manager.io \
                                clusterissuers.cert-manager.io \
                                issuers.cert-manager.io
+
+        - name: Delete External Secrets related CRDs
+          run: |
+            kubectl delete crd clustersecretstores.external-secrets.io \
+                               externalsecrets.external-secrets.io \
+                               secretstores.external-secrets.io \
+                               clusterexternalsecrets.external-secrets.io \
+                               pushsecrets.external-secrets.io
 
         - name: Terraform Destroy
           run: terraform destroy -auto-approve
