@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
 
-  source: 
+  source:
     repoURL: https://github.com/iali-11/gatus-eks.git
     targetRevision: HEAD
     path: gatus

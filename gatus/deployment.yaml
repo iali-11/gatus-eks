@@ -58,7 +58,7 @@ spec:
         volumeMounts:
           - name: gatus-config
             mountPath: /config
-        
+
       volumes:
         - name: gatus-config
           configMap:

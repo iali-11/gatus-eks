@@ -60,9 +60,9 @@ jobs:
 
         - name: Uninstall Helm Charts
           run: |
-            helm uninstall nginx-ingress -n nginx-ingress 
-            helm uninstall cert-manager -n cert-manager 
-            helm uninstall external-dns -n external-dns 
+            helm uninstall nginx-ingress -n nginx-ingress
+            helm uninstall cert-manager -n cert-manager
+            helm uninstall external-dns -n external-dns
             helm uninstall argocd -n argo-cd
             helm uninstall prometheus-stack -n monitoring
             helm uninstall external-secrets -n external-secrets
@@ -73,7 +73,7 @@ jobs:
             kubectl delete crd applications.argoproj.io \
                                applicationsets.argoproj.io \
                                appprojects.argoproj.io
-        
+
         - name: Delete Cert-Manager related CRDs
           run: |
             kubectl delete crd challenges.acme.cert-manager.io \
@@ -85,7 +85,7 @@ jobs:
 
         - name: Delete External Secrets related CRDs
           run: |
-            kubectl delete crd externalsecrets.external-secrets.io 
+            kubectl delete crd externalsecrets.external-secrets.io
 
         - name: Terraform Destroy
           run: terraform destroy -auto-approve

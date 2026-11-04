@@ -9,7 +9,7 @@ on:
 
 permissions:
     id-token: write
-    contents: read 
+    contents: read
 
 env:
     AWS_REGION: eu-west-2
@@ -47,7 +47,7 @@ jobs:
           run: terraform init
 
         - name: Terraform Format Check
-          run: terraform fmt -check -recursive 
+          run: terraform fmt -check -recursive
 
         - name: Terraform Validate
           run: terraform validate
@@ -69,7 +69,7 @@ jobs:
             aws eks update-kubeconfig \
             --region ${{ env.AWS_REGION }} \
             --name ${{ env.CLUSTER_NAME }}
-          
+
         - name: Deploy Clusterissuer in Cluster
           run: kubectl apply -f issuer.yaml
           working-directory: ./cert-manager
