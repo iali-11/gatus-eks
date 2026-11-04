@@ -27,6 +27,8 @@ COPY --from=builder /etc/group /etc/group
 
 ENV GATUS_CONFIG_PATH=./config.yaml
 
+USER nonrootuser
+
 EXPOSE 8080
 
 ENTRYPOINT [ "./gatus" ]
