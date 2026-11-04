@@ -38,7 +38,7 @@ spec:
 
       containers:
       - name: gatus
-        image: 050288151438.dkr.ecr.eu-west-2.amazonaws.com/gatus:4a923a9e
+        image: 050288151438.dkr.ecr.eu-west-2.amazonaws.com/gatus:be4705d87caaadc1ba6fd12d09c70bf2cc99e726
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
