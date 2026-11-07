@@ -61,7 +61,7 @@ module "iam" {
   ebs_csi_role_name           = var.ebs_csi_role_name
   external_secret_role_name   = var.external_secret_role_name
   external_secret_policy_name = var.external_secret_policy_name
-  db_secret_arn               = module.rds.master_user_secret_arn
+  db_secret_arn               = module.rds.db_secret_arn
 }
 
 module "sg" {
