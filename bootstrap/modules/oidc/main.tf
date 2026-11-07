@@ -164,7 +164,9 @@ resource "aws_iam_role_policy" "github_actions_terraform_policy" {
           "secretsmanager:UpdateSecret",
           "secretsmanager:TagResource",
           "secretsmanager:UntagResource",
-          "secretsmanager:ListSecrets"
+          "secretsmanager:ListSecrets",
+          "secretsmanager:GetResourcePolicy",
+          "secretsmanager:ListSecretVersionIds"
         ]
         Resource = "*"
       },
