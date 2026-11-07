@@ -10,6 +10,10 @@ terraform {
       source  = "hashicorp/helm"
       version = "~>3.3.0"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~>3.9.1"
+    }
   }
   backend "s3" {
     bucket       = "gatus-eks-backend"
