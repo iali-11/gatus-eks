@@ -10,6 +10,7 @@ repos:
         args: [--allow-multiple-documents]
       - id: check-merge-conflict
       - id: check-added-large-files
+        exclude: ^README.md
       - id: detect-private-key
 
   # Stops passwords, tokens and AWS keys being committed
