@@ -58,5 +58,12 @@ jobs:
           run: |
             kubectl delete -f issuer.yaml
 
+        - name: Remove External Secrets
+          run: |
+            kubectl patch externalsecret gatus-db -n apps \
+              --type merge -p '{"metadata":{"finalizers":null}}' 2>/dev/null || true
+
+            helm uninstall external-secrets -n external-secrets
+
         - name: Terraform Destroy
           run: terraform destroy -auto-approve
