@@ -56,6 +56,7 @@ resource "helm_release" "external_secrets" {
   name       = "external-secrets"
   repository = "https://charts.external-secrets.io"
   chart      = "external-secrets"
+  timeout    = 900
 
   create_namespace = true
   namespace        = "external-secrets"
