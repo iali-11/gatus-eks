@@ -183,15 +183,15 @@ kubectl apply -f ../argo-cd/gatus-argo.yaml
 
 **Infrastructure Deployment**
 
-![Deploy pipeline](images/Deployment-pipeline.png)
+![Deploy pipeline](images/Infra-Deploy-pipeline.png)
 
 **Docker Build and Push**
 
-![Docker Build and Push](images/Docker-build-push-pipeline.png)
+![Docker Build and Push](images/Docker-build-push.png)
 
 **Teardown**
 
-![Teardown](images/Teardown-pipeline.png)
+![Teardown](images/Destroy-pipeline.png)
 
 ## Agile Project Management
 
