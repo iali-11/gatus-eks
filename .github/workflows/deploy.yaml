@@ -96,6 +96,14 @@ jobs:
           run: |
             kubectl apply -f gatus-argo.yaml
 
+        - name: Wait For Gatus Application TLS Certificate
+          run: |
+            kubectl wait \
+            --namespace apps \
+            --for=condition=Ready \
+            certificate/app-gatus-tls \
+            --timeout=5m
+
         - name: Wait for Argo CD Application to sync
           run: |
             kubectl wait \
